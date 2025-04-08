@@ -1,0 +1,252 @@
+*{
+    font-size: 12px;
+    --salmon: #F7A9A8;
+    --violet: #613F75;
+    --pink: #E5C3D1;
+    --hotpink: #EF798A;
+    --grey: #726769;
+}
+body {
+    background-color: var(--pink);
+    line-height: 150%;
+    letter-spacing: 0%;
+    font-size: 2rem;
+    font-family: "DM Serif Display", serif;
+}
+
+nav {
+    background-color: var(--violet);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 25vw;
+    height: 100vh;
+}
+
+nav > ul {
+    margin-right: 0px;
+    margin-top: 10rem;
+    padding-top: 0px;
+    text-align: center;
+    font-size: 2rem;
+    padding: 0px;
+    line-height: 150%;
+}
+
+nav > #menu {
+    margin-top: 5rem;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--hotpink);
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    display: block;
+}
+
+nav > #menu > span {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+nav > ul > li {
+    margin: 0px;
+    padding: 0px;
+}
+
+nav > ul > li > a,a:visited {
+    
+        color: var(--pink);
+        text-decoration: none;
+        font-size: 3rem;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 5px;
+        font-family: "DM Serif Display", serif;
+        
+}
+
+.container-content {
+    position: relative;
+    left: 25vw;
+    padding: 3rem;
+    margin: 2rem;
+    width: 65vw;
+}
+
+.description {
+
+    font-family: "DM Serif Display", serif;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 150;
+    line-height: 2rem;
+}
+
+.description > div{
+    font-size: 2rem;
+}
+
+
+.description > ul > li > a{
+    font-size: 2rem;
+}
+
+.schedule {
+    position: relative;
+    margin: 2rem;
+    padding: 2rem;
+    background-color: var(--pink);
+    font-family: "DM Serif Display", serif;
+    font-size: 2rem;
+    line-height: 3rem;
+    left: 27vw; 
+    width: 65vw;
+    
+    text-align: left;
+}
+
+.schedule > h1 {
+    text-align: left;
+}
+
+.schedule > ul {
+    border: 1px solid var(--grey);
+    border-radius: 10px;
+}
+
+.schedule > ul > li {
+    font-size: 2em;
+}
+
+.assignments {
+    position: relative;
+    margin: 2rem;
+    padding: 2rem;
+    background-color: var(--pink);
+    font-family: "DM Serif Display", serif;
+    font-size: 2rem;
+    line-height: 3rem;
+    left: 27vw; 
+    width: 65vw;
+    
+    text-align: left;
+}
+
+.assignments > h1 {
+    text-align: left;
+}
+
+.assignments > ul {
+    border: 1px solid var(--grey);
+    border-radius: 10px;
+}
+
+.assignments > ul > li {
+    font-size: 2em;
+}
+
+#heading {
+
+    color: var(--violet);
+    font-family: "DM Serif Display", serif;
+    font-size: 7rem;
+    line-height: 140%;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+
+
+h1 {
+
+    color: var(--hotpink);
+    text-transform: uppercase;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: 6px;
+    font-size: 5rem;
+
+}
+
+h2 {
+
+    color: var(--hotpink);
+    text-transform: uppercase;
+    line-height: 140%;
+    letter-spacing: 10%;
+    font-size: 4rem;
+
+}
+
+h3 {
+    
+    color: var(--hotpink);
+    text-transform: lowercase;
+    font-size: 3rem;
+
+}
+
+@media only screen and (max-width: 600px) {
+    *{
+        font-size: 10px;
+    }
+
+    nav {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        height: 5vh;
+        width: 100vw;
+    }
+
+    nav > #menu {
+        display: none;
+    }
+
+    nav > ul {
+        display: flex;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 3rem;
+        padding: 0px;
+        gap: 20px;
+        letter-spacing: 9px;
+        list-style-type: none;
+        justify-content: center;
+        align-items: center; 
+    }
+
+    .container-content {
+        position: relative;
+        top: 12vh;
+        left: 0px;
+        padding: 2rem;
+        margin: 0px;
+        width: 60%;
+        font-size: 2rem;
+    }
+    .assignments {
+        position: relative;
+        top: 12vh;
+        left: 0px;
+        margin: 0px;
+        padding: 3rem;       
+        font-size: 2rem;
+        width: 60%;
+        text-align: left;
+    }
+    .schedule {
+        position: relative;
+        top: 12vh;
+        left: 0px;
+        margin: 0px;
+        padding: 3rem;       
+        font-size: 2rem;
+        width: 60%;
+        text-align: left;
+    }
+
+}
