@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Landing Page</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="left-section">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/pfflogo.jpg" alt="Phoenix Fan Fusion Logo"> </img>
+                </a>
+            </div>
+            <div class="divider">|</div>
+            <div class="date-location">
+                <p>June 6 - 8, 2025</p>
+                <p>Phoenix Convention Center</p>
+            </div>
+        </div>
+
+        <div class="center-section">
+            <a href="details.html" class="nav-button details-button">Details</a>
+        </div>
+
+        <div class="right-section">
+            <a href="rsvp.html" class="nav-button highlight">Book Now!</a>
+        </div>
+    </header>
+
+    <main class="checkout-container">
+        <section class="checkout-left">
+            <h1>CHECKOUT</h1>
+            <form class="checkout-form">
+                <h2>Contact Information</h2>
+                <div class="name-fields">
+                    <input type="text" placeholder="First Name" required />
+                    <input type="text" placeholder="Last Name" required />
+                </div>
+                <input type="email" placeholder="Email Address" required />
+                <input type="tel" placeholder="Phone Number" required />
+
+                <h2>Tickets</h2>
+                <div class="ticket-fields">
+                    <input type="number" id="generalTickets" min="0" placeholder="Number of General Admission Tickets" />
+                    <input type="number" id="vipTickets" min="0" placeholder="Number of VIP Admission Tickets" />
+                </div>
+            </form>
+        </section>
+
+        <section class="checkout-right">
+            <div class="image-block">
+                <img src="images/pffcheckout.jpg" alt="Phoenix Fan Fusion Checkout" />
+            </div>
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                <div class="summary-box">
+                  <p>General Admission: $<span id="generalTotal">0</span></p>
+                  <p>VIP Admission: $<span id="vipTotal">0</span></p>
+                  <hr />
+                  <p><strong>Total: $<span id="orderTotal">0</span></strong></p>
+                </div>
+                <button type="submit" action="#" class="submit-button">Submit</button>
+              </div>
+        </section>
+    </main>
+
+    <script src="rsvp.js"></script>
+</body>
+
+</html>
