@@ -1,0 +1,49 @@
+/* 🌿 Tile by Nehir – Starter CSS
+   This stylesheet adds simple styling to support your layout.
+   You'll enhance the layout further using Bootstrap during the LiveLab.
+*/
+
+/* Set a soft textured background for the whole page */
+body {
+  background-image: url('../assets/offwhite-background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: sans-serif;
+  padding: 16px; /* Adds space around edges on small screens */
+}
+
+/* Header polish */
+h1 {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+/* Limit image dimensions so tiles don’t overflow the layout */
+img {
+  max-height: 250px;
+  max-width: 250px;
+}
+
+/* Optional decorative border for each tile */
+.border-tile {
+  border: 20px solid transparent;
+  border-image: url('../assets/wood.jpg') 30 round;
+  padding: 5px;
+  background-color: white;
+}
+
+/* Optional caption style if you add labels under your tiles */
+.tile-caption {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #444;
+}
+
+/* 💡 Optional Enhancements:
+   - Try adding a hover effect with transform and box-shadow
+   - Use border-radius for rounded image corners
+   - Combine with Bootstrap utilities like p-3, mb-4, text-center
+   - Ask AI: “Add a subtle zoom effect on image hover”
+*/
