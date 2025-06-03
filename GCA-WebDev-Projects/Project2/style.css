@@ -1,0 +1,181 @@
+/* Add your CSS here */
+/* Set a clean, modern font for the whole page */
+body {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif; /* Use a modern, clean font stack */
+  margin: 0;
+  background: #f5f7fa;
+  color: #222;
+}
+
+/* --- Header Styles --- */
+header {
+  /* Add a blue linear gradient background */
+  background: linear-gradient(90deg, #0071c5 0%, #00aee6 100%);
+  color: #fff;
+  padding: 40px 0 30px 0;
+  text-align: center;
+}
+
+header img {
+  width: 100px; /* Set logo size */
+  margin-bottom: 10px;
+}
+
+header h1 {
+  margin: 10px 0 10px 0;
+  font-size: 2.2em;
+  letter-spacing: 1px;
+}
+
+header p {
+  font-size: 1.1em;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* --- Timeline Section --- */
+section {
+  /* Use flexbox to arrange cards horizontally */
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  gap: 24px; /* Space between cards */
+  padding: 32px 5vw; /* Add more space on left/right sides using vw for responsiveness */
+  scroll-snap-type: x proximity; /* Snap near the start, but allow some padding */
+  scroll-padding-left: 5vw; /* Add padding before the first card when snapping */
+  scroll-padding-right: 5vw; /* Add padding after the last card when snapping */
+}
+
+/* Each milestone card */
+section > div {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  min-width: 440px;  /* Make cards wider for large screens */
+  max-width: 440px;
+  flex: 0 0 auto; /* Prevent cards from shrinking */
+  padding: 24px 18px 18px 18px; /* Slightly more padding for bigger cards */
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  scroll-snap-align: start; /* Snap to start of each card */
+  cursor: pointer;
+  overflow: hidden;
+  margin-left: 4px;  /* Small margin for left/right breathing room */
+  margin-right: 4px;
+}
+
+/* Card hover effect for interactivity */
+section > div:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(0,113,197,0.15);
+  border: 1.5px solid #0071c5;
+}
+
+/* Card headings */
+section h2 {
+  margin: 0 0 4px 0;
+  color: #0071c5;
+  font-size: 1.1em;
+}
+
+section h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  color: #222;
+}
+
+/* --- Card images and overlay effect --- */
+section img {
+  width: 100%;           /* Image fills the card width */
+  height: 180px;         /* Set a fixed height for all images */
+  object-fit: cover;     /* Crop images to fill the area */
+  border-radius: 8px;
+  margin-bottom: 10px;
+  margin-top: 6px;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* Container for image and overlay */
+section > div {
+  position: relative;
+}
+
+/* Hide the card paragraph by default, and set up overlay */
+section > div p {
+  /* The overlay now covers the entire card */
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.65); /* Dimming overlay */
+  color: #fff;
+  border-radius: 12px; /* Match the card's border radius */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+  font-size: 0.98em;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+}
+
+/* Show the overlay and text on hover */
+section > div:hover p {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Make sure the image is under the overlay */
+section > div img {
+  z-index: 1;
+  position: relative;
+}
+@media (max-width: 1100px) {
+  section > div {
+    min-width: 260px;
+    max-width: 260px;
+    padding: 20px 16px 16px 16px;
+  }
+}
+
+@media (max-width: 700px) {
+  section {
+    flex-direction: column; /* Stack cards vertically */
+    gap: 20px;
+    padding: 20px 4vw; /* Add a bit of side padding on mobile, using vw for consistency */
+    overflow-x: visible; /* Remove horizontal scroll */
+    scroll-snap-type: none;
+  }
+  section > div {
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  section > div p {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 12px; /* Match card radius on mobile too */
+  }
+}
+
+/* --- Style the instruction paragraph at the bottom --- */
+body > p {
+  text-align: center;
+  color: #0071c5;
+  font-size: 1em;
+  margin: 24px 0 32px 0;
+  letter-spacing: 0.5px;
+}
