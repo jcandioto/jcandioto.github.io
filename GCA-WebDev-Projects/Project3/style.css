@@ -1,0 +1,198 @@
+/* Add your CSS here */
+/* Set a clean, modern font for the whole page */
+body {
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif; /* Use a modern, clean font stack */
+  margin: 0;
+  background: #f5f7fa;
+  color: #222;
+}
+
+/* --- Header Styles --- */
+header {
+  /* Add a blue linear gradient background */
+  background: linear-gradient(90deg, #0071c5 0%, #00aee6 100%);
+  color: #fff;
+  padding: 40px 0 30px 0;
+  text-align: center;
+  min-height: 25vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header img {
+  width: 100px; /* Set logo size */
+  margin-bottom: 10px;
+}
+
+header h1 {
+  font-size: 2.2em;
+  margin: 10px 0 10px 0;
+  letter-spacing: 1px;
+}
+
+header p {
+  font-size: 1.1em;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+header img {
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+/* --- Timeline Section --- */
+.timeline-section {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 24px;
+  padding: 32px 5vw;
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 5vw;
+  scroll-padding-right: 5vw;
+}
+
+.timeline-section > div {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  min-width: 440px;
+  max-width: 440px;
+  flex: 0 0 auto;
+  padding: 24px 18px 18px 18px;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  scroll-snap-align: start;
+  cursor: pointer;
+  overflow: hidden;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.timeline-section > div:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(0,113,197,0.15);
+  border: 1.5px solid #0071c5;
+}
+
+.timeline-section h2 {
+  margin: 0 0 4px 0;
+  color: #0071c5;
+  font-size: 1.1em;
+}
+
+.timeline-section h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  color: #222;
+}
+
+.timeline-section img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  margin-top: 6px;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-section > div {
+  position: relative;
+}
+
+.timeline-section > div p {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  border-radius: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+  font-size: 0.98em;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+}
+
+.timeline-section > div:hover p {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.timeline-section > div img {
+  z-index: 1;
+  position: relative;
+}
+
+@media (min-width: 992px) {
+  header {
+    min-height: 50vh;
+    padding: 80px 0 60px 0;
+  }
+  header h1 {
+    font-size: 4em;
+  }
+  header p {
+    font-size: 1.5em;
+    max-width: 700px;
+  }
+  header img {
+    width: 180px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .timeline-section > div {
+    min-width: 260px;
+    max-width: 260px;
+    padding: 20px 16px 16px 16px;
+  }
+}
+
+@media (max-width: 700px) {
+  .timeline-section {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 4vw;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+  .timeline-section > div {
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .timeline-section > div p {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 12px;
+  }
+}
+
+/* --- Style the instruction paragraph at the bottom --- */
+body > p {
+  text-align: center;
+  color: #0071c5;
+  font-size: 1em;
+  margin: 24px 0 32px 0;
+  letter-spacing: 0.5px;
+}
