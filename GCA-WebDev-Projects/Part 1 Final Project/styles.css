@@ -102,18 +102,43 @@ h1 {
   border: 2px solid #159A48;
 }
 
+.droplet.golden {
+  background: radial-gradient(circle at 60% 30%, #fffbe7 30%, #FFC907 80%, #FF902A 100%);
+  border: 2px solid #FFC907;
+  box-shadow: 0 0 18px 4px #FFC90788, 0 2px 8px rgba(255,201,7,0.18);
+  /* Optionally add a sparkle effect or animation */
+}
+
+#score-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
 #score {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 1.3em;
-  color: #FFC907;
+  font-size: 2em;
   font-weight: bold;
-  background: rgba(46,157,247,0.08);
-  padding: 6px 18px;
-  border-radius: 20px;
-  z-index: 10;
-  box-shadow: 0 2px 8px rgba(46,157,247,0.08);
+  color: #2E9DF7;
+  margin-bottom: 4px;
+  background: none;
+  position: static;
+  top: unset;
+  right: unset;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#dps-label {
+  font-size: 1.1em;
+  color: #159A48;
+  margin-bottom: 0;
+}
+
+/* Remove the old #score style that positioned it inside #game-container */
+#game-container #score {
+  display: none !important;
 }
 
 #upgrades-area {

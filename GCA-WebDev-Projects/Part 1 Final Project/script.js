@@ -5,7 +5,7 @@ let droplets = 0;
 let misses = 0;
 let pollutedRate = 0.3; // 30% polluted by default
 const gameContainer = document.getElementById('game-container');
-const scoreDisplay = document.getElementById('score');
+
 const pipe = document.getElementById('pipe');
 const containerHeight = 600;
 const dropletFallDuration = 3500; // ms
@@ -30,31 +30,31 @@ gameContainer.appendChild(missesLabel);
 let dropletInterval = null;
 let gameOverMsg = null;
 
-// Upgrades data
+// --- Update upgrade descriptions for correct passive values ---
 const upgrades = [
   {
     name: "Rainwater Catchments",
     price: 1000,
     icon: "upgrade-icons/rainwater.png",
-    desc: "Gutters on rooftops direct the flow of rainfall into a sanitary holding tank. (+5 Droplets per second)"
+    desc: "Gutters on rooftops direct the flow of rainfall into a sanitary holding tank. (+20 Droplets per second)"
   },
   {
     name: "Hand-dug Wells",
     price: 2500,
     icon: "upgrade-icons/handdug.png",
-    desc: "Skilled laborers dig up to 15 meters by hand to reach aquifers below. (+10 Droplets per second)"
+    desc: "Skilled laborers dig up to 15 meters by hand to reach aquifers below. (+40 Droplets per second)"
   },
   {
     name: "Latrines",
     price: 5000,
     icon: "upgrade-icons/latrines.png",
-    desc: "Covered shelters provide safety and privacy for bathroom users. (-10% polluted water droplet spawn rate)"
+    desc: "Covered shelters provide safety and privacy for bathroom users. (-10% polluted water droplet spawn rate, normal droplets now worth 200 each)"
   },
   {
     name: "Gravity-fed systems",
     price: 10000,
     icon: "upgrade-icons/gravity.png",
-    desc: "The force of gravity feeds water into a community from an elevated source. (+50 Droplets per second)"
+    desc: "The force of gravity feeds water into a community from an elevated source. (+75 Droplets per second, water drops every 1 second)"
   },
   {
     name: "Water-purification systems",
@@ -72,7 +72,7 @@ const upgrades = [
     name: "Spring Protections",
     price: 30000,
     icon: "upgrade-icons/spring.png",
-    desc: "A renewable and self-sustaining system captures and safely stores pure water from a natural spring. (Droplets increases by 1.05x every second in water delivery reports)"
+    desc: "A renewable and self-sustaining system captures and safely stores pure water from a natural spring. (Droplets increase by 1.05x every 2 seconds in water delivery reports)"
   },
   {
     name: "Biosand Filters",
@@ -88,22 +88,114 @@ const upgrades = [
   }
 ];
 
-// Update upgrades grid based on droplets
+let ownedUpgrades = Array(upgrades.length).fill(false);
+let passiveDropletsPerSecond = 0;
+let passiveInterval = null;
+let springInterval = null; // For Spring Protections
+
+// Use the new score area elements
+const scoreDisplay = document.getElementById('score');
+const dpsLabel = document.getElementById('dps-label');
+
+// --- Calculate only passive DPS (including spring multiplier) ---
+function updateDPSLabel() {
+  let dps = passiveDropletsPerSecond;
+  if (ownedUpgrades[6]) {
+    // Spring Protections: 1.05x every 2 seconds, so average DPS is 2.5% of current droplets per second
+    dps += (droplets * 0.05) / 2;
+  }
+  dpsLabel.textContent = `Droplets per second: ${Math.round(dps)}`;
+}
+
+// --- Update passive droplets per second and polluted rate ---
+function recalculatePassiveDroplets() {
+  passiveDropletsPerSecond = 0;
+  if (ownedUpgrades[0]) passiveDropletsPerSecond += 20;   // Rainwater Catchments
+  if (ownedUpgrades[1]) passiveDropletsPerSecond += 40;   // Hand-dug Wells
+  if (ownedUpgrades[3]) passiveDropletsPerSecond += 75;   // Gravity-fed systems
+  if (ownedUpgrades[5]) passiveDropletsPerSecond += 100;  // Drilled Wells
+  if (ownedUpgrades[8]) passiveDropletsPerSecond += 250;  // Piped Systems
+
+  // Polluted droplet rate upgrades
+  if (ownedUpgrades[7]) {
+    pollutedRate = 0.05;
+  } else if (ownedUpgrades[2]) {
+    pollutedRate = 0.20;
+  } else {
+    pollutedRate = 0.30;
+  }
+
+  // Clear previous intervals
+  if (passiveInterval) clearInterval(passiveInterval);
+  if (springInterval) clearInterval(springInterval);
+
+  // Passive droplets per second
+  if (passiveDropletsPerSecond > 0) {
+    passiveInterval = setInterval(() => {
+      if (
+        !upgradesScreen.classList.contains('upgrades-visible') &&
+        upgradesScreen.style.opacity !== "1"
+      ) {
+        droplets += passiveDropletsPerSecond;
+        scoreDisplay.textContent = 'Droplets: ' + droplets;
+        updateUpgradesGrid();
+        updateDPSLabel();
+      }
+    }, 1000);
+  }
+
+  // Spring Protections: 1.05x score every 2 seconds
+  if (ownedUpgrades[6]) {
+    springInterval = setInterval(() => {
+      if (
+        !upgradesScreen.classList.contains('upgrades-visible') &&
+        upgradesScreen.style.opacity !== "1"
+      ) {
+        droplets = Math.floor(droplets * 1.05);
+        scoreDisplay.textContent = 'Droplets: ' + droplets;
+        updateUpgradesGrid();
+        updateDPSLabel();
+      }
+    }, 2000);
+  }
+
+  updateDPSLabel();
+}
+
+// Update the upgrades grid to allow purchasing and activating upgrades
 function updateUpgradesGrid() {
   document.querySelectorAll('.upgrade-btn').forEach((btn, i) => {
     const upgrade = upgrades[i];
-    const unlocked = droplets >= upgrade.price;
+    const unlocked = droplets >= upgrade.price || ownedUpgrades[i];
     const img = btn.querySelector('img');
     const tooltip = btn.querySelector('.upgrade-tooltip');
     const price = btn.querySelector('.upgrade-price');
 
-    if (unlocked) {
+    if (ownedUpgrades[i]) {
+      btn.classList.remove('locked');
+      btn.classList.add('owned');
+      img.src = upgrade.icon;
+      img.alt = upgrade.name;
+      tooltip.textContent = `Purchased: ${upgrade.name}\n${upgrade.desc}`;
+      price.textContent = 'Owned';
+      btn.disabled = true;
+    } else if (unlocked) {
       btn.classList.remove('locked');
       img.src = upgrade.icon;
       img.alt = upgrade.name;
       tooltip.textContent = `${upgrade.name}: ${upgrade.desc}`;
       price.textContent = `${upgrade.price} Droplets`;
       btn.disabled = false;
+      btn.onclick = function () {
+        if (droplets >= upgrade.price && !ownedUpgrades[i]) {
+          droplets -= upgrade.price;
+          ownedUpgrades[i] = true;
+          scoreDisplay.textContent = 'Droplets: ' + droplets;
+          updateUpgradesGrid();
+          recalculatePassiveDroplets();
+          if (i === 3) setDropletInterval(); // Gravity-fed systems purchased
+        }
+      };
     } else {
       btn.classList.add('locked');
       img.src = 'img/padlock.png';
@@ -111,8 +203,17 @@ function updateUpgradesGrid() {
       tooltip.textContent = `Unlock at ${upgrade.price} Droplets`;
       price.textContent = '';
       btn.disabled = true;
+      btn.onclick = null;
     }
   });
+}
+
+// --- Control droplet spawn interval based on upgrades ---
+function setDropletInterval() {
+  if (dropletInterval) clearInterval(dropletInterval);
+  let interval = 1250;
+  if (ownedUpgrades[3]) interval = 1000; // Gravity-fed systems
+  dropletInterval = setInterval(spawnDroplet, interval);
 }
 
 function spawnDroplet() {
@@ -120,9 +221,21 @@ function spawnDroplet() {
 
   // Decide droplet type
   const isPolluted = Math.random() < pollutedRate;
+  let isGolden = false;
+
+  // Water-purification systems upgrade (index 4): 10% chance for golden droplet
+  if (!isPolluted && ownedUpgrades[4] && Math.random() < 0.10) {
+    isGolden = true;
+  }
 
   const droplet = document.createElement('div');
-  droplet.className = isPolluted ? 'droplet polluted' : 'droplet';
+  if (isPolluted) {
+    droplet.className = 'droplet polluted';
+  } else if (isGolden) {
+    droplet.className = 'droplet golden';
+  } else {
+    droplet.className = 'droplet';
+  }
   droplet.style.top = pipe.offsetHeight + 'px';
 
   // Randomize slight horizontal offset for variety
@@ -143,11 +256,17 @@ function spawnDroplet() {
       if (droplet.parentNode) droplet.parentNode.removeChild(droplet);
       // Only update misses if game is not already over AND not removed by upgrades
       if (misses < 5 && !droplet._removedByUpgrade && !droplet._removedByClick) {
-        misses++;
-        missesLabel.textContent = 'Misses: ' + misses + '/5';
-        if (misses >= 5) {
-          document.querySelectorAll('.droplet').forEach(d => d.remove());
-          endGame();
+        // If polluted, add 50 droplets when it hits the ground, but do NOT update misses or end the game
+        if (isPolluted) {
+          droplets += 50;
+          scoreDisplay.textContent = 'Droplets: ' + droplets;
+        } else {
+          misses++;
+          missesLabel.textContent = 'Misses: ' + misses + '/5';
+          if (misses >= 5) {
+            document.querySelectorAll('.droplet').forEach(d => d.remove());
+            endGame();
+          }
         }
       }
     }
@@ -164,13 +283,17 @@ function spawnDroplet() {
         endGame();
         return;
       }
+    } else if (isGolden) {
+      droplets += 2000;
     } else {
-      droplets += 100;
+      // Latrines upgrade: normal droplets worth 200
+      droplets += ownedUpgrades[2] ? 200 : 100;
     }
     scoreDisplay.textContent = 'Droplets: ' + droplets;
     droplet._removedByClick = true;
     droplet.remove();
     updateUpgradesGrid();
+    updateDPSLabel();
     e.stopPropagation();
   });
 
@@ -190,17 +313,17 @@ function startGame() {
     gameOverMsg.remove();
     gameOverMsg = null;
   }
+  ownedUpgrades = Array(upgrades.length).fill(false);
+  recalculatePassiveDroplets();
   updateUpgradesGrid();
-
-  // Start interval
-  if (dropletInterval) clearInterval(dropletInterval);
-  dropletInterval = setInterval(spawnDroplet, 1750);
-  // Spawn the first droplet immediately
+  setDropletInterval();
   spawnDroplet();
 }
 
 function endGame() {
   if (dropletInterval) clearInterval(dropletInterval);
+  if (passiveInterval) clearInterval(passiveInterval);
+  if (springInterval) clearInterval(springInterval); // <-- Add this line
 
   // Remove any previous game over message
   if (gameOverMsg) {
@@ -254,6 +377,7 @@ const upgradesBtn = document.getElementById('upgrades-btn');
 // Show upgrades screen with animation
 upgradesBtn.onclick = function() {
   if (dropletInterval) clearInterval(dropletInterval);
+  if (passiveInterval) clearInterval(passiveInterval); // <-- Stop passive while menu open
   // Set the flag on all droplets first
   document.querySelectorAll('.droplet').forEach(droplet => {
     droplet._removedByUpgrade = true;
@@ -273,9 +397,9 @@ document.querySelector('.upgrade-x-btn').onclick = function() {
   upgradesScreen.classList.add('upgrades-hidden');
   // Resume game only if not game over
   if (misses < 5) {
-    if (dropletInterval) clearInterval(dropletInterval);
-    dropletInterval = setInterval(spawnDroplet, 2000);
+    setDropletInterval();
     spawnDroplet();
+    recalculatePassiveDroplets(); // <-- Resume passive after closing menu
   }
 };
 
