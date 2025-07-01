@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to the Charity Water Game Prototype</h1>
+  <div id="main-content">
     <!-- Score area moved above game container -->
     <div id="score-area">
       <div id="score">Droplets: 0</div>
@@ -74,8 +74,52 @@
 </div>
     <div id="upgrades-area">
       <button id="upgrades-btn" type="button">Upgrades</button>
+    </div>
+    
+    <div id="start-menu" class="start-menu-visible">
+  <div class="start-menu-content">
+    <div class="start-menu-title">Charity Water Game</div>
+    <button id="play-btn" class="start-play-btn">Play</button>
+    <button id="difficulty-btn" class="start-diff-btn">Difficulty</button>
+    <div id="difficulty-select" class="difficulty-select-hidden">
+  <div class="difficulty-btn-row">
+    <button class="diff-choice-btn easy" data-diff="easy">Easy</button>
+    <button class="diff-choice-btn normal" data-diff="normal">Normal</button>
+    <button class="diff-choice-btn hard" data-diff="hard">Hard</button>
+  </div>
+  <button id="diff-return-btn" class="diff-return-btn">Return</button>
+</div>
+  </div>
+</div>
+  </div> <!-- End of main-content -->
+  <footer id="cw-footer">
+    <div id="cw-footer-content">
+      <a href="https://www.charitywater.org/donate/the-spring" class="cw-footer-link cw-footer-take-action" target="_blank" rel="noopener">
+        <img src="img/water-can-transparent.png" alt="Water Can Icon" class="cw-footer-jerrycan" />
+        Take Action
+      </a>
       <div id="cw-logo-wrap">
         <img src="img/cw_logo_horizontal.png" alt="Charity: Water Logo" id="cw-logo">
+      </div>
+      <a href="https://www.charitywater.org/" class="cw-footer-link cw-footer-about-us" target="_blank" rel="noopener">
+        <img src="img/water-can-transparent.png" alt="Water Can Icon" class="cw-footer-jerrycan" />
+        About Us
+      </a>
+    </div>
+  </footer>
+    <div id="cw-popup-overlay">
+      <div id="cw-popup">
+        <button id="cw-popup-close" aria-label="Close">&times;</button>
+        <div class="cw-popup-btn-row">
+          <button class="cw-popup-btn" id="cw-take-action-btn">
+            <img src="img/water-can-transparent.png" alt="Water Can Icon" />
+            Take Action
+          </button>
+          <button class="cw-popup-btn" id="cw-about-btn">
+            <img src="img/water-can-transparent.png" alt="Water Can Icon" />
+            About Us
+          </button>
+        </div>
       </div>
     </div>
     <script src="script.js"></script>

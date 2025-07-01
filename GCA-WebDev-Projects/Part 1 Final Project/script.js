@@ -8,7 +8,7 @@ const gameContainer = document.getElementById('game-container');
 
 const pipe = document.getElementById('pipe');
 const containerHeight = 600;
-const dropletFallDuration = 3500; // ms
+let dropletFallDuration = 3500; // Default for normal
 
 // Add a label for misses at the bottom of the game container
 const missesLabel = document.createElement('div');
@@ -216,6 +216,19 @@ function setDropletInterval() {
   dropletInterval = setInterval(spawnDroplet, interval);
 }
 
+const dropletSound = new Audio('sound/water.mp3');
+dropletSound.preload = 'auto';
+
+// Utility to play only the first 0.25 seconds of the sound
+function playDropletSound() {
+  dropletSound.currentTime = 0;
+  dropletSound.play();
+  setTimeout(() => {
+    dropletSound.pause();
+    dropletSound.currentTime = 0;
+  }, 250);
+}
+
 function spawnDroplet() {
   if (misses >= 5) return; // Don't spawn if game is over
 
@@ -286,10 +299,11 @@ function spawnDroplet() {
     } else if (isGolden) {
       droplets += 2000;
     } else {
-      // Latrines upgrade: normal droplets worth 200
-      droplets += ownedUpgrades[2] ? 200 : 100;
+      // Latrines upgrade: normal droplets worth 200, otherwise use difficulty value
+      droplets += ownedUpgrades[2] ? 200 : dropletBaseValue;
     }
     scoreDisplay.textContent = 'Droplets: ' + droplets;
+    playDropletSound(); // Play sound on click
     droplet._removedByClick = true;
     droplet.remove();
     updateUpgradesGrid();
@@ -402,6 +416,144 @@ document.querySelector('.upgrade-x-btn').onclick = function() {
     recalculatePassiveDroplets(); // <-- Resume passive after closing menu
   }
 };
+// --- Start Menu & Difficulty UI Logic ---
+const startMenu = document.getElementById('start-menu');
+const playBtn = document.getElementById('play-btn');
+const diffBtn = document.getElementById('difficulty-btn');
+const diffSelect = document.getElementById('difficulty-select');
+const diffReturnBtn = document.getElementById('diff-return-btn');
+const diffChoiceBtns = document.querySelectorAll('.diff-choice-btn');
 
-// Start the game on load
-startGame();
+// Hide game UI until Play is pressed
+document.body.classList.add('start-menu-active');
+document.getElementById('score-area').style.display = "none";
+document.getElementById('game-container').style.display = "none";
+document.getElementById('upgrades-area').style.display = "none";
+
+// Show main menu on load
+function showMainMenu() {
+  playBtn.style.display = "";
+  diffBtn.style.display = "";
+  diffSelect.classList.add('difficulty-select-hidden');
+  diffSelect.classList.remove('difficulty-select-visible');
+}
+
+// Show difficulty selection
+function showDifficultyMenu() {
+  playBtn.style.display = "none";
+  diffBtn.style.display = "none";
+  diffSelect.classList.remove('difficulty-select-hidden');
+  diffSelect.classList.add('difficulty-select-visible');
+}
+
+// Track if difficulty has been set
+let difficulty = null; // null until chosen
+let dropletBaseValue = 100;
+
+// Play button
+playBtn.onclick = function() {
+  // If difficulty not set, default to normal
+  if (!difficulty) {
+    difficulty = "normal";
+    dropletBaseValue = 100;
+    dropletFallDuration = 3500;
+  }
+  startMenu.classList.add('start-menu-hidden');
+  startMenu.classList.remove('start-menu-visible');
+  document.body.classList.remove('start-menu-active');
+  document.getElementById('score-area').style.display = "";
+  document.getElementById('game-container').style.display = "";
+  document.getElementById('upgrades-area').style.display = "";
+  startGame();
+};
+
+// Difficulty button
+diffBtn.onclick = function() {
+  showDifficultyMenu();
+};
+
+// Return button
+diffReturnBtn.onclick = function() {
+  showMainMenu();
+};
+
+// Difficulty choice buttons
+diffChoiceBtns.forEach(btn => {
+  btn.onclick = function() {
+    difficulty = btn.dataset.diff;
+    if (difficulty === "easy") {
+      dropletBaseValue = 150;
+      dropletFallDuration = 4500; // Slower on easy
+    } else if (difficulty === "hard") {
+      dropletBaseValue = 75;
+      dropletFallDuration = 2500; // Faster on hard
+    } else {
+      dropletBaseValue = 100;
+      dropletFallDuration = 3500; // Normal
+    }
+    showMainMenu();
+  };
+});
+
+// Show menu on load
+showMainMenu();
+
+// --- Charity: water logo popup for mobile ---
+const cwLogo = document.getElementById('cw-logo');
+const cwPopupOverlay = document.getElementById('cw-popup-overlay');
+const cwPopupClose = document.getElementById('cw-popup-close');
+
+// Only enable popup on mobile
+function isMobile() {
+  return window.innerWidth <= 700;
+}
+
+cwLogo.addEventListener('click', function () {
+  if (isMobile()) {
+    // Pause game: clear intervals and remove all droplets (like upgrades button)
+    if (dropletInterval) clearInterval(dropletInterval);
+    if (passiveInterval) clearInterval(passiveInterval);
+    // Remove all droplets and flag as removed by upgrade (so no misses)
+    document.querySelectorAll('.droplet').forEach(droplet => {
+      droplet._removedByUpgrade = true;
+    });
+    document.querySelectorAll('.droplet').forEach(droplet => {
+      droplet.remove();
+    });
+    cwPopupOverlay.classList.add('active');
+  }
+});
+
+cwPopupClose.addEventListener('click', function () {
+  cwPopupOverlay.classList.remove('active');
+  // Resume game only if not game over
+  if (misses < 5) {
+    setDropletInterval();
+    spawnDroplet();
+    recalculatePassiveDroplets();
+  }
+});
+
+// Optional: close popup if overlay background is clicked
+cwPopupOverlay.addEventListener('click', function (e) {
+  if (e.target === cwPopupOverlay) {
+    cwPopupOverlay.classList.remove('active');
+    // Resume game only if not game over
+    if (misses < 5) {
+      setDropletInterval();
+      spawnDroplet();
+      recalculatePassiveDroplets();
+    }
+  }
+});
+
+// Use href to redirect instead of window.open
+document.getElementById('cw-take-action-btn').onclick = function () {
+  window.location.href = 'https://www.charitywater.org/donate/the-spring';
+};
+document.getElementById('cw-about-btn').onclick = function () {
+  window.location.href = 'https://www.charitywater.org/';
+};
+
+
+

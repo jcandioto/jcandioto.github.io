@@ -15,8 +15,8 @@ Secondary Colors:
 */
 
 body {
-  background: #f5f7fa;
-  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  font-family: 'Proxima Nova', 'Avenir', Georgia, serif;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -37,6 +37,10 @@ h1 {
   box-shadow: 0 4px 24px rgba(46,157,247,0.08);
   overflow: hidden;
   border: 3px solid #FFC907;
+  font-size: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 #pipe {
@@ -114,6 +118,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   margin-bottom: 18px;
+  margin-top: 38px; /* Add more spacing from the top */
 }
 
 #score {
@@ -169,18 +174,126 @@ h1 {
   box-shadow: 0 4px 16px rgba(191,108,70,0.18);
 }
 
-#cw-logo-wrap {
+#cw-footer {
+  flex-shrink: 0;
+  width: 100%;
+  background: #ffffff;
+  padding: 12px 0 8px 0;
   display: flex;
   justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#cw-logo-wrap {
+  margin: 0;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 #cw-logo {
-  max-width: 220px;
-  width: 80vw;
+  max-width: 180px;
+  width: 70vw;
   height: auto;
-  margin: 0 auto 0 auto;
   display: block;
+  object-fit: contain;
+  aspect-ratio: 5/1;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+#cw-logo:active {
+  filter: brightness(0.8);
+}
+
+/* Popup overlay */
+#cw-popup-overlay {
+  display: none;
+  position: fixed;
+  z-index: 20000;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(46,157,247,0.18);
+  align-items: center;
+  justify-content: center;
+}
+
+#cw-popup-overlay.active {
+  display: flex;
+}
+
+/* Popup content */
+#cw-popup {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(46,157,247,0.18);
+  padding: 32px 18px 24px 18px;
+  min-width: 220px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.cw-popup-btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.cw-popup-btn {
+  background: #fff;
+  color: #111;
+  border: 2px solid #111;
+  border-radius: 14px;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 12px 18px 12px 18px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  width: 100%;
+  max-width: 260px;
+  box-shadow: 0 2px 8px rgba(46,157,247,0.08);
+}
+.cw-popup-btn img {
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.cw-popup-btn:active {
+  background: #f5f7fa;
+  color: #2E9DF7;
+  border-color: #2E9DF7;
+}
+
+/* Popup close button */
+#cw-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.6em;
+  color: #2E9DF7;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 1;
+  padding: 0;
+  line-height: 1;
 }
 
 /* Mobile styles */
@@ -194,23 +307,215 @@ h1 {
     border-radius: 14px;
   }
   #cw-logo {
-    max-width: 160px;
+    max-width: 110px;
+  }
+  #cw-footer {
+    padding: 8px 0 4px 0;
+  }
+  #cw-popup {
+    min-width: 70vw;
+    padding: 24px 6vw 18px 6vw;
+  }
+  .cw-popup-btn {
+    font-size: 1em;
+    padding: 10px 10px 10px 10px;
+    max-width: 90vw;
+  }
+  #cw-popup-close {
+    font-size: 2em;
+    top: 4px;
+    right: 10px;
+  }
+  .cw-footer-link {
+    display: none !important;
+  }
+  #cw-footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 18px;
+    position: relative;
+    height: 60px;
+  }
+  .cw-footer-take-action {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 20px;
+    align-items: center;
+  }
+  .cw-footer-about-us {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+  }
+  #cw-logo-wrap {
+    position: static !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
   }
 }
 
 /* Desktop styles */
 @media (min-width: 701px) {
-  #upgrades-area {
-    margin-top: 32px;
+  #game-container {
+    width: 400px;
+    height: 600px;
+    font-size: 1em;
   }
-  #upgrades-btn {
-    font-size: 1.25em;
-    padding: 16px 56px;
-    border-radius: 22px;
+  #score-area {
+    font-size: 1.1em;
+  }
+  .start-menu-content {
+    min-width: 320px;
+    padding: 48px 32px 40px 32px;
+  }
+  .start-menu-title {
+    font-size: 2.5em;
+  }
+  .start-play-btn {
+    font-size: 1.5em;
+    padding: 18px 60px;
+  }
+  .start-diff-btn {
+    font-size: 1.1em;
+    padding: 12px 38px;
+  }
+  .diff-choice-btn {
+    width: 80px;
+    height: 80px;
+    font-size: 1.1em;
+    padding: 0 8px;
+  }
+  .diff-return-btn {
+    width: 120px;
+    font-size: 1em;
+    padding: 10px 0;
   }
   #cw-logo {
-    max-width: 260px;
+    max-width: 220px;
   }
+  .upgrades-label {
+    font-size: 2.3em;
+    padding: 10px 0;
+  }
+  #upgrades-grid {
+    max-width: 400px;
+    padding: 24px 10px 18px 10px;
+  }
+  .upgrade-buttons {
+    grid-template-columns: repeat(3, 108px);
+    grid-template-rows: repeat(3, 128px);
+    gap: 22px;
+  }
+  .upgrade-btn {
+    width: 120px;
+    height: 140px;
+  }
+  .upgrade-btn img {
+    width: 80px;
+    height: 80px;
+    margin-top: 14px;
+    margin-bottom: 10px;
+  }
+  /* --- Desktop footer links --- */
+#cw-footer-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.cw-footer-link {
+  display: none; /* Hidden by default, shown on desktop */
+  align-items: center;
+  gap: 8px;
+  font-size: 1.08em;
+  font-weight: bold;
+  color: #111;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0 8px;
+  font-family: 'Proxima Nova', 'Avenir', Georgia, serif;
+}
+
+.cw-footer-link:hover,
+.cw-footer-link:focus {
+  color: #2E9DF7;
+  text-decoration: underline;
+}
+
+.cw-footer-jerrycan {
+  width: 24px;
+  height: 24px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Show footer links and position them on desktop only */
+@media (min-width: 701px) {
+  .cw-footer-link {
+    display: flex;
+  }
+  #cw-footer-content {
+    justify-content: space-between;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+  .cw-footer-take-action {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 200px;
+    align-items: center;
+  }
+  .cw-footer-about-us {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+  }
+  #cw-logo-wrap {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    width: auto;
+  }
+}
+
+/* On mobile, hide the links and keep only the logo centered */
+@media (max-width: 700px) {
+  .cw-footer-link {
+    display: none !important;
+  }
+  #cw-footer-content {
+    justify-content: center;
+    padding: 0;
+  }
+  #cw-logo-wrap {
+    position: static;
+    transform: none;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
 }
 
 /* Add to your styles.css */
@@ -375,4 +680,215 @@ h1 {
   border-radius: 18px;
   padding: 10px 0 10px 0;
   box-shadow: 0 2px 8px rgba(191,108,70,0.07);
+}
+
+#start-menu {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 247, 225, 0.98);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.start-menu-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(100%);
+}
+
+.start-menu-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.start-menu-content {
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 8px 32px rgba(46,157,247,0.13);
+  padding: 48px 32px 40px 32px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.start-menu-title {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #2E9DF7;
+  margin-bottom: 38px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+}
+
+.start-play-btn {
+  background: linear-gradient(90deg, #4FCB53 0%, #159A48 100%);
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 18px 60px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(21,154,72,0.10);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.start-play-btn:hover,
+.start-play-btn:focus {
+  background: #159A48;
+  color: #fffbe7;
+}
+
+.start-diff-btn {
+  background: #e0e0e0;
+  color: #444;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 12px 38px;
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px rgba(100,100,100,0.10);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.start-diff-btn:hover,
+.start-diff-btn:focus {
+  background: #bdbdbd;
+  color: #222;
+}
+
+#difficulty-select {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.difficulty-select-visible {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+}
+
+.difficulty-select-hidden {
+  display: none !important;
+}
+
+.difficulty-btn-row {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.diff-choice-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(46,157,247,0.10);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  outline: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.diff-choice-btn:active {
+  transform: scale(0.96);
+}
+.diff-choice-btn.easy {
+  background: linear-gradient(90deg, #4FCB53 0%, #159A48 100%);
+}
+.diff-choice-btn.normal {
+  background: linear-gradient(90deg, #FFC907 0%, #FF902A 100%);
+  color: #222;
+}
+.diff-choice-btn.hard {
+  background: linear-gradient(90deg, #F5402C 0%, #FF902A 100%);
+}
+
+.diff-return-btn {
+  margin-top: 10px;
+  background: #e0e0e0;
+  color: #444;
+  border: none;
+  border-radius: 14px;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 10px 32px;
+  box-shadow: 0 2px 8px rgba(100,100,100,0.10);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  width: 120px;
+  align-self: center;
+}
+.diff-return-btn:hover,
+.diff-return-btn:focus {
+  background: #bdbdbd;
+  color: #222;
+}
+
+#cw-logo-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+#cw-logo {
+  max-width: 180px;
+  width: 70vw;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  aspect-ratio: 5/1;
+}
+
+
+/* Update all font-family declarations to use the new stack */
+#score-area,
+#score,
+#dps-label,
+#game-container,
+#pipe,
+#misses,
+#upgrades-area,
+#upgrades-btn,
+#cw-logo-wrap,
+#upgrades-screen,
+#upgrades-grid,
+.upgrades-label,
+.upgrade-btn,
+.upgrade-price,
+.upgrade-tooltip,
+.start-menu-content,
+.start-menu-title,
+.start-play-btn,
+.start-diff-btn,
+#difficulty-select,
+.diff-choice-btn,
+.diff-return-btn {
+  font-family: 'Proxima Nova', 'Avenir', Georgia, serif !important;
 }
