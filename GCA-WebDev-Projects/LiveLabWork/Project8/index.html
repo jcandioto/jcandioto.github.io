@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Assistant</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://db.onlinewebfonts.com/c/769f7ac73ccca2f3528ce58459939368?family=Bauer+Bodoni+W02+Bold" rel="stylesheet"> 
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="page-wrapper">
+      <!------- HERO LOGO ------->
+      <div class="hero-logo-circle">
+        <div class="hero-logo-circle-inner">
+          <img src="img/loreal-logo.png" alt="L'Oreal Logo" />
+        </div>
+      </div>
+      <!------- Header / Branding ------->
+      <header class="site-header">
+        <h1 class="site-title">L'Oreal Product Advisor</h1>
+      </header>
+
+      <!------- Chat Area ------->
+      <main>
+        <section class="chatbox">
+          <div id="chatWindow" class="chat-window">
+            <!-- messages will be appended here via JS -->
+          </div>
+
+          <form id="chatForm" class="chat-form">
+            <label for="userInput" class="visually-hidden">Message</label>
+            <input
+              id="userInput"
+              name="userInput"
+              type="text"
+              placeholder="Ask me about products or routines…"
+              autocomplete="off"
+              required
+            />
+            <button type="submit" id="sendBtn">
+              <span class="material-icons">send</span>
+              <span class="visually-hidden">Send</span>
+            </button>
+          </form>
+        </section>
+      </main>
+
+      <!------- Footer Links ------->
+      <footer class="site-footer">
+        <p>&copy; 2025 L'Oreal. All rights reserved.</p>
+        <nav>
+          <!-- These URLs are placeholders -->
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Contact</a>
+        </nav>
+      </footer>
+    </div>
+
+    <!-- secrets.js can be removed when using Cloudflare Workers for API requests -->
+    <script src="secrets.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
